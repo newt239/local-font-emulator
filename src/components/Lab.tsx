@@ -1,8 +1,6 @@
-import { useState } from "react";
-
 import { Box, ColorInput, Flex, NumberInput, Paper } from "@mantine/core";
-
 import { useAtomValue } from "jotai";
+import { useState } from "react";
 
 import { textAtom } from "~/jotai/atoms";
 
@@ -35,14 +33,14 @@ const Lab: React.FC<{ fontFamily: string }> = ({ fontFamily }) => {
         <NumberInput
           defaultValue={fontSize}
           label="文字サイズ"
-          onChange={(n) => n && setFontSize(n)}
+          onChange={(n) => typeof n === "number" && setFontSize(n)}
         />
         <NumberInput
           defaultValue={lineHeight}
           label="行間"
           step={0.1}
-          precision={2}
-          onChange={(n) => n && setLineHeight(n)}
+          decimalScale={2}
+          onChange={(n) => typeof n === "number" && setLineHeight(n)}
         />
         <ColorInput
           defaultValue={color}
