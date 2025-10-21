@@ -1,5 +1,3 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-
 import {
   ActionIcon,
   Anchor,
@@ -11,9 +9,9 @@ import {
   Textarea,
   Title,
 } from "@mantine/core";
-
 import { GithubLogo } from "@phosphor-icons/react";
 import { useAtom } from "jotai";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { fontSizeAtom, textAtom } from "~/jotai/atoms";
 
@@ -30,14 +28,17 @@ export function SideBar() {
       <Navbar.Section mb="md">
         <Link to="/">
           <Title
-            color="yellow"
+            c="yellow"
             order={1}
-            sx={{
+            style={{
               lineHeight: 1,
               transition: "color 0.2s ease",
-              ":hover": {
-                color: "black",
-              },
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "black";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "yellow";
             }}
           >
             Local Font Emulator
@@ -53,11 +54,11 @@ export function SideBar() {
       />
 
       <Navbar.Section grow>
-        <Text size="xs" weight={500} color="dimmed" my="xs">
+        <Text size="xs" fw={500} c="dimmed" my="xs">
           フォントサイズ
         </Text>
         <Slider value={fontSize} onChange={setFontSize} min={5} max={50} />
-        <Text size="xs" weight={500} color="dimmed" my="xs">
+        <Text size="xs" fw={500} c="dimmed" my="xs">
           フィルター
         </Text>
         <SegmentedControl
@@ -78,7 +79,7 @@ export function SideBar() {
           fullWidth
         />
 
-        <Text size="xs" weight={500} color="dimmed" my="xs">
+        <Text size="xs" fw={500} c="dimmed" my="xs">
           和文フォント
         </Text>
         <SegmentedControl
@@ -118,8 +119,8 @@ export function SideBar() {
               component="a"
               href="https://github.com/newt239/local-font-emulator"
               variant="subtle"
-              target="default"
-              color="dark"
+              target="_blank"
+              c="dark"
               size="lg"
             >
               <GithubLogo size={20} />

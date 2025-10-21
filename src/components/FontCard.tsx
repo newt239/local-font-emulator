@@ -1,11 +1,9 @@
+import { Flex, Paper, ScrollArea, Switch, Text } from "@mantine/core";
+import { useAtom, useAtomValue } from "jotai";
 import { Link } from "react-router-dom";
 
-import { Flex, Paper, ScrollArea, Switch, Text } from "@mantine/core";
-
-import { useAtom, useAtomValue } from "jotai";
-
 import { fontSizeAtom, pinnedFontsAtom, textAtom } from "~/jotai/atoms";
-import { FontList } from "~/types/FontData";
+import type { FontList } from "~/types/FontData";
 
 type FontCardProps = {
   font: FontList[number];
@@ -23,7 +21,7 @@ const FontCard: React.FC<FontCardProps> = ({ font }) => {
           <p>{font.family}</p>
         </Link>
         <Switch
-          color="yellow"
+          c="yellow"
           checked={pinnedFonts.includes(font.family)}
           onChange={(e) => {
             if (e.target.checked) {
@@ -39,10 +37,10 @@ const FontCard: React.FC<FontCardProps> = ({ font }) => {
       <ScrollArea h="20vh" w="100%" offsetScrollbars>
         <Text
           fz="lg"
-          sx={{ whiteSpace: "pre-wrap" }}
           style={{
             fontFamily: `'${font.family}', Tofu`,
             fontSize,
+            whiteSpace: "pre-wrap",
           }}
         >
           {text}

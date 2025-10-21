@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-
 import {
   Badge,
   Box,
@@ -11,13 +8,14 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-
 import { useAtomValue } from "jotai";
 import opentype from "opentype.js";
+import { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import Lab from "~/components/Lab";
 import { textAtom } from "~/jotai/atoms";
-import { FontData } from "~/types/FontData";
+import type { FontData } from "~/types/FontData";
 
 type Font = Omit<FontData & { meta?: opentype.Font }, "blob">;
 
@@ -28,7 +26,7 @@ const FontPage: React.FC = () => {
 
   const text = useAtomValue(textAtom);
 
-  const loadFontData = async () => {
+  const loadFontData = useCallback(async () => {
     if (!fontFamily) return;
     const availableFonts: FontData[] = await window.queryLocalFonts({
       families: [fontFamily],
@@ -44,10 +42,10 @@ const FontPage: React.FC = () => {
         );
         fontFace
           .load()
-          .then(function (loadedFace) {
+          .then((loadedFace) => {
             document.fonts.add(loadedFace);
           })
-          .catch(function (e) {
+          .catch((e) => {
             console.error(e);
           });
         const blob = await font.blob();
@@ -77,11 +75,11 @@ const FontPage: React.FC = () => {
     });
 
     setFonts(sortedFonts);
-  };
+  }, [fontFamily]);
 
   useEffect(() => {
     loadFontData();
-  }, [fontFamily]);
+  }, [loadFontData]);
 
   return (
     <div>
@@ -91,12 +89,12 @@ const FontPage: React.FC = () => {
             <Title order={2} fz={75}>
               {fonts[0].family}
             </Title>
-            {fonts[0].meta && fonts[0].meta.names.fullName.ja && (
+            {fonts[0].meta?.names.fullName.ja && (
               <Text>{fonts[0].meta.names.fullName.ja}</Text>
             )}
           </Box>
 
-          <Tabs defaultValue="info" variant="pills" color="yellow" w="100%">
+          <Tabs defaultValue="info" variant="pills" c="yellow" w="100%">
             <Tabs.List>
               <Tabs.Tab value="info">Info</Tabs.Tab>
               <Tabs.Tab value="variants">Variants</Tabs.Tab>
@@ -117,21 +115,15 @@ const FontPage: React.FC = () => {
                   />
                   <Table>
                     <tbody>
-                      {fonts[index] &&
-                        fonts[index].meta &&
-                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                        Object.entries(fonts[index].meta!.names).map(
+                      {fonts[index]?.meta &&
+                        Object.entries(fonts[index].meta.names).map(
                           ([key, value]) => (
                             <tr key={key}>
                               <td>{key}</td>
                               <td>
                                 {value.ja ? (
                                   <>
-                                    <Badge
-                                      color="yellow"
-                                      variant="light"
-                                      mr="md"
-                                    >
+                                    <Badge c="yellow" variant="light" mr="md">
                                       JA
                                     </Badge>
                                     {value.ja}
@@ -155,7 +147,7 @@ const FontPage: React.FC = () => {
               <Flex direction="column">
                 {fonts.map((font) => (
                   <Box key={font.fullName}>
-                    <Title order={3} weight="inherit">
+                    <Title order={3} fw="inherit">
                       {font.fullName}
                     </Title>
                     <Text

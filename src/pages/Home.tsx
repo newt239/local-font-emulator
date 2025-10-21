@@ -1,16 +1,14 @@
-import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
-
 import { Button, Center, Flex, Grid, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-
 import { ArrowClockwise, Play } from "@phosphor-icons/react";
 import { useAtom, useAtomValue } from "jotai";
 import opentype from "opentype.js";
+import { useCallback, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 import FontCard from "~/components/FontCard";
 import { fontListAtom, pinnedFontsAtom } from "~/jotai/atoms";
-import { FontData, FontList } from "~/types/FontData";
+import type { FontData, FontList } from "~/types/FontData";
 
 const HomePage: React.FC = () => {
   const { search } = useLocation();
@@ -22,16 +20,7 @@ const HomePage: React.FC = () => {
 
   const ref = useRef(true);
 
-  useEffect(() => {
-    if (ref.current) {
-      ref.current = false;
-      return;
-    } else {
-      getLocalFonts();
-    }
-  }, [search]);
-
-  const getLocalFonts = async () => {
+  const getLocalFonts = useCallback(async () => {
     handlers.open();
     try {
       const fonts: FontData[] = await window.queryLocalFonts();
@@ -57,7 +46,7 @@ const HomePage: React.FC = () => {
               }
             }
             return font;
-          } catch (err) {
+          } catch {
             return {
               family: font.family,
               fullName: font.fullName,
@@ -86,22 +75,31 @@ const HomePage: React.FC = () => {
         return 1;
       });
       setFontList(sortedFonts);
-    } catch (err) {
-      alert(err);
+    } catch {
+      alert("フォントの取得に失敗しました");
     }
     handlers.close();
-  };
+  }, [handlers, query, pinnedFonts, setFontList]);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current = false;
+      return;
+    } else {
+      getLocalFonts();
+    }
+  }, [getLocalFonts]);
 
   return (
     <>
       {fontList.length === 0 ? (
         <Center>
           <Flex gap={5}>
-            {visible && <Loader size="md" color="yellow" />}
+            {visible && <Loader size="md" c="yellow" />}
             <Button
-              color="yellow"
+              c="yellow"
               onClick={getLocalFonts}
-              leftIcon={<Play size={20} />}
+              leftSection={<Play size={20} />}
             >
               フォントを取得
             </Button>
@@ -110,11 +108,11 @@ const HomePage: React.FC = () => {
       ) : (
         <>
           <Flex mx={5} justify="end" align="center" gap={5}>
-            {visible && <Loader size="md" color="yellow" />}
+            {visible && <Loader size="md" c="yellow" />}
             <Button
-              color="yellow"
+              c="yellow"
               onClick={getLocalFonts}
-              leftIcon={<ArrowClockwise size="20" />}
+              leftSection={<ArrowClockwise size="20" />}
               disabled={visible}
             >
               フォントを再取得
@@ -122,7 +120,10 @@ const HomePage: React.FC = () => {
           </Flex>
           <Grid m={5}>
             {fontList.map((font) => (
-              <Grid.Col lg={3} md={4} sm={6} xs={12} key={font.family}>
+              <Grid.Col
+                span={{ lg: 3, md: 4, sm: 6, xs: 12 }}
+                key={font.family}
+              >
                 <FontCard font={font} />
               </Grid.Col>
             ))}
