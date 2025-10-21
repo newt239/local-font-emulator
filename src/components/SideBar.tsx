@@ -2,9 +2,10 @@ import {
   ActionIcon,
   Anchor,
   Flex,
-  Navbar,
+  Paper,
   SegmentedControl,
   Slider,
+  Stack,
   Text,
   Textarea,
   Title,
@@ -24,85 +25,89 @@ export function SideBar() {
   const [fontSize, setFontSize] = useAtom(fontSizeAtom);
 
   return (
-    <Navbar width={{ sm: 300 }} p="md">
-      <Navbar.Section mb="md">
-        <Link to="/">
-          <Title
-            c="yellow"
-            order={1}
-            style={{
-              lineHeight: 1,
-              transition: "color 0.2s ease",
+    <Paper
+      w={300}
+      p="md"
+      h="100vh"
+      style={{ position: "fixed", left: 0, top: 0 }}
+    >
+      <Stack gap="md" h="100%">
+        <Stack gap="md">
+          <Link to="/">
+            <Title
+              c="yellow"
+              order={1}
+              style={{
+                lineHeight: 1,
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "black";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "yellow";
+              }}
+            >
+              Local Font Emulator
+            </Title>
+          </Link>
+
+          <Textarea
+            placeholder="Type something..."
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
+        </Stack>
+
+        <Stack gap="md" style={{ flex: 1 }}>
+          <Text size="xs" fw={500} c="dimmed">
+            フォントサイズ
+          </Text>
+          <Slider value={fontSize} onChange={setFontSize} min={5} max={50} />
+          <Text size="xs" fw={500} c="dimmed">
+            フィルター
+          </Text>
+          <SegmentedControl
+            disabled={pathname.includes("font")}
+            data={[
+              { value: "all", label: "すべて" },
+              { value: "pinned", label: "お気に入り" },
+            ]}
+            onChange={(value) => {
+              if (value === "all") {
+                query.delete("pinned");
+                navigate({ search: query.toString() });
+              } else if (value === "pinned") {
+                query.set("pinned", "true");
+                navigate({ search: query.toString() });
+              }
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = "black";
+            fullWidth
+          />
+
+          <Text size="xs" fw={500} c="dimmed">
+            和文フォント
+          </Text>
+          <SegmentedControl
+            disabled={pathname.includes("font")}
+            data={[
+              { value: "all", label: "すべて" },
+              { value: "ja", label: "和文のみ" },
+            ]}
+            onChange={(value) => {
+              if (value === "all") {
+                query.delete("ja");
+                navigate({ search: query.toString() });
+              } else if (value === "ja") {
+                query.set("ja", "true");
+                navigate({ search: query.toString() });
+              }
             }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = "yellow";
-            }}
-          >
-            Local Font Emulator
-          </Title>
-        </Link>
-      </Navbar.Section>
+            fullWidth
+          />
+        </Stack>
 
-      <Textarea
-        placeholder="Type something..."
-        mb="sm"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
-
-      <Navbar.Section grow>
-        <Text size="xs" fw={500} c="dimmed" my="xs">
-          フォントサイズ
-        </Text>
-        <Slider value={fontSize} onChange={setFontSize} min={5} max={50} />
-        <Text size="xs" fw={500} c="dimmed" my="xs">
-          フィルター
-        </Text>
-        <SegmentedControl
-          disabled={pathname.includes("font")}
-          data={[
-            { value: "all", label: "すべて" },
-            { value: "pinned", label: "お気に入り" },
-          ]}
-          onChange={(value) => {
-            if (value === "all") {
-              query.delete("pinned");
-              navigate({ search: query.toString() });
-            } else if (value === "pinned") {
-              query.set("pinned", "true");
-              navigate({ search: query.toString() });
-            }
-          }}
-          fullWidth
-        />
-
-        <Text size="xs" fw={500} c="dimmed" my="xs">
-          和文フォント
-        </Text>
-        <SegmentedControl
-          disabled={pathname.includes("font")}
-          data={[
-            { value: "all", label: "すべて" },
-            { value: "ja", label: "和文のみ" },
-          ]}
-          onChange={(value) => {
-            if (value === "all") {
-              query.delete("ja");
-              navigate({ search: query.toString() });
-            } else if (value === "ja") {
-              query.set("ja", "true");
-              navigate({ search: query.toString() });
-            }
-          }}
-          fullWidth
-        />
-      </Navbar.Section>
-
-      <Navbar.Section>
-        <Flex direction="column" gap="xs">
+        <Stack gap="xs">
           <Link to="/privacy">
             <Anchor component="span" size="sm">
               プライバシーポリシー
@@ -126,8 +131,8 @@ export function SideBar() {
               <GithubLogo size={20} />
             </ActionIcon>
           </Flex>
-        </Flex>
-      </Navbar.Section>
-    </Navbar>
+        </Stack>
+      </Stack>
+    </Paper>
   );
 }

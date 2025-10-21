@@ -1,7 +1,6 @@
-import { Route, Routes } from "react-router-dom";
-
-import { Anchor, AppShell, Box, Text } from "@mantine/core";
+import { Anchor, Box, Flex, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
+import { Route, Routes } from "react-router-dom";
 
 import { SideBar } from "~/components/SideBar";
 import FontPage from "~/pages/Font";
@@ -13,27 +12,29 @@ const Wrapper = () => {
   return (
     <>
       {matches ? (
-        <AppShell
-          asideOffsetBreakpoint="xs"
-          padding="md"
-          navbar={<SideBar />}
-          styles={{
-            main: {
+        <Flex>
+          <SideBar />
+          <Box
+            style={{
+              marginLeft: 300,
+              width: "calc(100vw - 300px)",
+              minHeight: "100vh",
               backgroundColor: "hsl(45,10%, 90%)",
-            },
-          }}
-        >
-          <Routes>
-            <Route path="/">
-              <Route index element={<HomePage />} />
-              <Route path="font">
-                <Route path=":fontFamily" element={<FontPage />} />
+              padding: "1rem",
+            }}
+          >
+            <Routes>
+              <Route path="/">
+                <Route index element={<HomePage />} />
+                <Route path="font">
+                  <Route path=":fontFamily" element={<FontPage />} />
+                </Route>
+                <Route path="privacy" element={<PrivacyPage />} />
+                <Route path="*" element={<HomePage />} />
               </Route>
-              <Route path="privacy" element={<PrivacyPage />} />
-              <Route path="*" element={<HomePage />} />
-            </Route>
-          </Routes>
-        </AppShell>
+            </Routes>
+          </Box>
+        </Flex>
       ) : (
         <Box p="md">
           <Text>

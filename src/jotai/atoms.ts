@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
-import { FontList } from "~/types/FontData";
+import type { FontList } from "~/types/FontData";
 
 export const fontListAtom = atom<FontList>([]);
 
@@ -15,3 +15,6 @@ export const textAtom = atomWithStorage(
 export const pinnedFontsAtom = atomWithStorage<string[]>("pinned-fonts", []);
 
 export const fontSizeAtom = atomWithStorage("font-size", 16);
+
+// フォント解析結果のキャッシュ
+export const fontCacheAtom = atomWithStorage<Record<string, { ja: "supported" | "undetermind"; timestamp: number }>>("font-cache", {});
