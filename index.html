@@ -7,6 +7,13 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Local Font Emulator</title>
+  <script>
+    // ColorSchemeScript for Mantine theme management
+    (function () {
+      const colorScheme = localStorage.getItem('mantine-color-scheme') || 'light';
+      document.documentElement.setAttribute('data-mantine-color-scheme', colorScheme);
+    })();
+  </script>
   <meta name="theme-color" content="#FCC419" />
   <meta name="description" content="デバイス上にインストールされたフォントの一覧を表示します。" />
   <meta property="og:title" content="Local Font Emulator" />

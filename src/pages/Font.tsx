@@ -94,7 +94,7 @@ const FontPage: React.FC = () => {
             )}
           </Box>
 
-          <Tabs defaultValue="info" variant="pills" c="yellow" w="100%">
+          <Tabs defaultValue="info" variant="pills" w="100%">
             <Tabs.List>
               <Tabs.Tab value="info">Info</Tabs.Tab>
               <Tabs.Tab value="variants">Variants</Tabs.Tab>
@@ -123,7 +123,7 @@ const FontPage: React.FC = () => {
                               <td>
                                 {value.ja ? (
                                   <>
-                                    <Badge c="yellow" variant="light" mr="md">
+                                    <Badge variant="light" mr="md">
                                       JA
                                     </Badge>
                                     {value.ja}

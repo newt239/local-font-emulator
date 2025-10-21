@@ -1,6 +1,6 @@
-import { Button, Center, Flex, Grid, Loader } from "@mantine/core";
+import { Button, Flex, Grid, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { ArrowClockwise, Play } from "@phosphor-icons/react";
+import { ArrowClockwise } from "@phosphor-icons/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useCallback } from "react";
 import { useLocation } from "react-router-dom";
@@ -161,44 +161,23 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      {fontList.length === 0 ? (
-        <Center>
-          <Flex gap={5}>
-            {visible && <Loader size="md" c="yellow" />}
-            <Button
-              c="yellow"
-              onClick={getLocalFonts}
-              leftSection={<Play size={20} />}
-            >
-              フォントを取得
-            </Button>
-          </Flex>
-        </Center>
-      ) : (
-        <>
-          <Flex mx={5} justify="end" align="center" gap={5}>
-            {visible && <Loader size="md" c="yellow" />}
-            <Button
-              c="yellow"
-              onClick={getLocalFonts}
-              leftSection={<ArrowClockwise size="20" />}
-              disabled={visible}
-            >
-              フォントを再取得
-            </Button>
-          </Flex>
-          <Grid m={5}>
-            {fontList.map((font) => (
-              <Grid.Col
-                span={{ lg: 3, md: 4, sm: 6, xs: 12 }}
-                key={font.family}
-              >
-                <FontCard font={font} />
-              </Grid.Col>
-            ))}
-          </Grid>
-        </>
-      )}
+      <Flex mx={5} justify="end" align="center" gap={5}>
+        {visible && <Loader size="md" />}
+        <Button
+          onClick={getLocalFonts}
+          leftSection={<ArrowClockwise size="20" />}
+          disabled={visible}
+        >
+          フォントを再取得
+        </Button>
+      </Flex>
+      <Grid m={5}>
+        {fontList.map((font) => (
+          <Grid.Col span={{ lg: 3, md: 4, sm: 6, xs: 12 }} key={font.family}>
+            <FontCard font={font} />
+          </Grid.Col>
+        ))}
+      </Grid>
     </>
   );
 };

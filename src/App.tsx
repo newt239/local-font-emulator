@@ -1,6 +1,6 @@
-import { BrowserRouter } from "react-router-dom";
-
 import { MantineProvider } from "@mantine/core";
+import { BrowserRouter } from "react-router-dom";
+import "@mantine/core/styles.css";
 
 import ScrollTop from "~/components/ScrollTop";
 import Wrapper from "~/components/Wrapper";

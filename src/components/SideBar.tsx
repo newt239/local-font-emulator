@@ -35,17 +35,9 @@ export function SideBar() {
         <Stack gap="md">
           <Link to="/">
             <Title
-              c="yellow"
               order={1}
               style={{
                 lineHeight: 1,
-                transition: "color 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "black";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "yellow";
               }}
             >
               Local Font Emulator
