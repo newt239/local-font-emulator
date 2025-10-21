@@ -6,6 +6,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import { SideBar } from "~/components/SideBar";
 import FontPage from "~/pages/Font";
 import HomePage from "~/pages/Home";
+import PrivacyPage from "~/pages/Privacy";
 
 const Wrapper = () => {
   const matches = useMediaQuery("(min-width: 30em)");
@@ -28,6 +29,7 @@ const Wrapper = () => {
               <Route path="font">
                 <Route path=":fontFamily" element={<FontPage />} />
               </Route>
+              <Route path="privacy" element={<PrivacyPage />} />
               <Route path="*" element={<HomePage />} />
             </Route>
           </Routes>
