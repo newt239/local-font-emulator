@@ -101,23 +101,30 @@ export function SideBar() {
       </Navbar.Section>
 
       <Navbar.Section>
-        <Flex justify="space-between" align="center">
-          <Text>
-            © 2023{" "}
-            <Anchor href="https://twitter.com/newt239" target="_blank">
-              newt239
+        <Flex direction="column" gap="xs">
+          <Link to="/privacy">
+            <Anchor component="span" size="sm">
+              プライバシーポリシー
             </Anchor>
-          </Text>
-          <ActionIcon
-            component="a"
-            href="https://github.com/newt239/local-font-emulator"
-            variant="subtle"
-            target="default"
-            color="dark"
-            size="lg"
-          >
-            <GithubLogo size={20} />
-          </ActionIcon>
+          </Link>
+          <Flex justify="space-between" align="center">
+            <Text>
+              © 2023-2025{" "}
+              <Anchor href="https://twitter.com/newt239" target="_blank">
+                newt239
+              </Anchor>
+            </Text>
+            <ActionIcon
+              component="a"
+              href="https://github.com/newt239/local-font-emulator"
+              variant="subtle"
+              target="default"
+              color="dark"
+              size="lg"
+            >
+              <GithubLogo size={20} />
+            </ActionIcon>
+          </Flex>
         </Flex>
       </Navbar.Section>
     </Navbar>
